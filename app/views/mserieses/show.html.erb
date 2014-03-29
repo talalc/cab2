@@ -1,0 +1,11 @@
+<%= @series.title %><br>
+<img src="<%= @series.image_path %>/portrait_uncanny.<%= @series.image_ext %>"><br><br>
+
+<a href="<%= @series.url %>">Link to Series on Marvel.com</a><br><br>
+
+<% @series.mcomics.each do |comic| %>
+  <%= comic.title %><br>
+  <a href="/mcomics/<%= comic.id %>">
+    <img src="<%= comic.image_path %>/portrait_incredible.<%= comic.image_ext %>">
+  </a><br><br>
+<% end %>

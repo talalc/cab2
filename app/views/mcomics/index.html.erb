@@ -1,0 +1,21 @@
+<%= form_tag mcomic_search_path, method: "get" do %>
+  <%= text_field_tag 'q', nil, placeholder: 'Enter Comic Title' %>
+  <%= submit_tag("Search") %>
+<% end %>
+
+<%= link_to 'Browse Series', mserieses_path %>
+
+<%= will_paginate @comics %>
+<% i = -1 %>
+<table>
+<tr>
+<% @comics.each do |comic| %>
+    <% i += 1 %>
+    <td>
+    <span style="font-size:small;"><%= comic.title %></span><br>
+    <a href="/mcomics/<%= comic.id %>"><img src="<%= comic.image_path %>/portrait_incredible.<%= comic.image_ext %>"></a>
+    </td>
+    <% if i.modulo(5)==4 %></tr><tr><% end %>
+  <% end %>
+</table>
+<%= will_paginate @comics %>
