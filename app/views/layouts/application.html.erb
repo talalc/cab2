@@ -7,20 +7,28 @@
   <%= csrf_meta_tags %>
 </head>
 <header>
-<div class="container"><table width="960"><td>
-<div align="left"><a href="../"><img src="../images/calogo2.png" width="340" height="100" /></a></div></td><td><div align="right">
-
-</div></td></table>
+<div class="container">
+  <table>
+    <td>
+    <div align="left">
+    <a href="../">
+    <img src="../images/calogo2.png" width="340" height="100" />
+    </a>
+    </div>
+    </td>
+    <td><div align="right">login</div></td>
+  </table>
 </div>
 </header>
 <body>
 <div class="container">
 <% flash.each do |key, value| %>
-<p><%= value %></p>
+  <p><%= value %></p>
 <% end %>
+
 <%= yield %>
 <footer>
-<p>Comic Authority © <%= Time.now.year %></p>
+<p>&copy; Comic Authority <%= Time.now.year %></p>
 </footer>
 </div>
 </body>
