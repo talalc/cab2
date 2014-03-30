@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(version: 20140329235631) do
   create_table "users", force: true do |t|
     t.string   "email"
     t.string   "password_digest"
-    t.integer  "cc"
+    t.integer  "cc",              default: 0
     t.string   "nick"
     t.datetime "created_at"
     t.datetime "updated_at"

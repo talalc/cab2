@@ -13,6 +13,9 @@ Cab2::Application.routes.draw do
   resources :mcomics, :only => [ :index, :show ]
   get '/mcomic/search' => 'mcomics#search_api'
 
+  get  "/session/new"  => "session#new"
+  post "/session"      => "session#create"
+  get  "/logout"       => "session#destroy"
   # /series/:serieses_id/comics/:id
 
   # <%= link_to "show comic", [:show, @series, @comic] %>
