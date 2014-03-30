@@ -1,22 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Comic Authority beta1</title>
+  <title>Comic Authority beta2</title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
 <header>
 <div class="container">
-  <table>
+  <table width="1080">
     <td>
-    <div align="left">
-    <a href="../">
-    <img src="../images/calogo2.png" width="340" height="100" />
-    </a>
-    </div>
+      <a href="../">
+      <img src="../images/calogo2.png" width="340" height="100" />
+      </a>
     </td>
-    <td><div align="right">login</div></td>
+    <td align="right">
+
+      <% if logged_in? %>
+        <%= current_user.nick %><br>
+        <%= current_user.cc %> cc<br>
+        <a href="/logout"> Logout</a>
+      <% else %>
+        <%= form_tag("/session", method: "post") do %>
+          <%= text_field_tag(:email, nil, placeholder: 'Email') %> <%= password_field_tag(:password, nil, placeholder: 'Password') %> <%= submit_tag("Login") %>
+        <% end %>
+        <br><a href="/users/new">Sign Up</a>
+      <% end %>
+
+    </td>
+    </div>
   </table>
 </div>
 </header>

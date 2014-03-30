@@ -19,13 +19,13 @@ body {
 }
 header {
   background-color: #b80000;
-  transition: .8s all ;
+/*  transition: .8s all ;*/
   color:white;
 }
 
-header:hover {
+/*header:hover {
   background-color: black;
-}
+}*/
 
 .container {
   width: 1080px;

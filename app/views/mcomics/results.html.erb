@@ -1,7 +1,11 @@
+<div align="right">
 <%= form_tag mcomic_search_path, method: "get" do %>
   <%= text_field_tag 'q', nil, placeholder: 'Enter Comic Title' %>
   <%= submit_tag("Search") %>
 <% end %>
+</div>
+
+<div align="center">
 
 <%= link_to 'Browse Series', mserieses_path %>
 
@@ -19,3 +23,5 @@
   <% end %>
 </table>
 
+
+</div>
