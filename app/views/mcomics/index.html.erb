@@ -17,7 +17,7 @@
     <% i += 1 %>
     <td>
     <%= comic.title %><br>
-    <a href="/mcomics/<%= comic.id %>"><img src="<%= comic.image_path %>/portrait_incredible.<%= comic.image_ext %>"></a><br><%= comic.mreads.count %> reads<% if logged_in? %>
+    <a href="/mcomics/<%= comic.id %>"><img src="<%= comic.image_path %>/portrait_incredible.<%= comic.image_ext %>"></a><br><%= comic.mreads.count %> reads - <%= comic.comments.count %> comments<% if logged_in? %>
 <%= form_for Mread.new, as: :mread do |f| %>
   <%= f.hidden_field :mcomic_id, :value => comic.id %>
   <%= f.submit 'Mark as Read' %>

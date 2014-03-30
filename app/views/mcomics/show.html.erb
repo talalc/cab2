@@ -3,13 +3,28 @@
 
 <a href="<%= @comic.url %>">Link to Comic on Marvel.com</a><br><br>
 
-belongs to series_id # <%= @comic.mseries_id %>
+belongs to series_id # <%= @comic.mseries_id %><br><br>
 
-<%= @comic.mreads.count %>
+<%= @comic.mreads.count %> reads
 
 <% if logged_in? %>
 <%= form_for Mread.new, as: :mread do |f| %>
   <%= f.hidden_field :mcomic_id, :value => @comic.id %>
   <%= f.submit 'Mark as Read' %>
+<% end %><br>
+<%= form_for [@comic, Comment.new] do |f| %>
+  <%= f.hidden_field :user_id, :value => current_user.id %>
+  <%= f.text_field :content %>
+  <%= f.hidden_field :commentable_id, :value => @comic.id %>
+  <%= f.hidden_field :commentable_type, :value => @comic.class.to_s %>
+  <%= f.submit 'Add Comment' %>
 <% end %>
+<% end %>
+
+<br>Comments<br><br>
+  <% @comic.comments.each do |comment| %>
+  <%= comment.user.nick %><br>
+  <%= comment.content %><br>
+  <%= time_ago_in_words(comment.created_at).gsub('about','') + ' ago' %>
+  <%= link_to "delete", [@comic, comment], :method => :delete, :confirm => "Are you sure?" %><br><br>
 <% end %>

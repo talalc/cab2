@@ -8,10 +8,12 @@ Cab2::Application.routes.draw do
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
-  resources :mserieses, :only => [ :index, :show ]
+  resources :mserieses, :only => [ :index, :show ], :has_many => :comments
   get '/mseries/search' => 'mserieses#search_api'
 
-  resources :mcomics, :only => [ :index, :show ]
+  resources :mcomics, :only => [ :index, :show ] do
+    resources :comments
+  end
   get '/mcomic/search' => 'mcomics#search_api'
 
   resources :users
