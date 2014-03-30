@@ -10,9 +10,11 @@ Cab2::Application.routes.draw do
 
   resources :mserieses, :only => [ :index, :show ]
   get '/mseries/search' => 'mserieses#search_api'
+
   resources :mcomics, :only => [ :index, :show ]
   get '/mcomic/search' => 'mcomics#search_api'
 
+  resources :users
   get  "/session/new"  => "session#new"
   post "/session"      => "session#create"
   get  "/logout"       => "session#destroy"
