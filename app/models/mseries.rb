@@ -2,6 +2,8 @@ class Mseries < ActiveRecord::Base
 
   has_many :mcomics
 
+  has_many :comments, as: :commentable
+
   def self.search_api(string)
     ts = Time.new.strftime '%s'
     pub_key = ENV['MARVEL_PUB']

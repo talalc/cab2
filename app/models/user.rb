@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
   has_many :mreads
   has_many :mcomics, :through => :mreads
 
+  has_many :comments, as: :commentable
+
   validates(:email,    { :uniqueness   => { case_sensitive: false }})
 
   def mark_as_mread(mcomic)

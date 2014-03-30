@@ -5,6 +5,8 @@ class Mcomic < ActiveRecord::Base
   has_many :mreads
   has_many :users, :through => :mreads
 
+  has_many :comments, as: :commentable
+
   def self.search_api(offset)
     ts = Time.new.strftime '%s'
     pub_key = ENV['MARVEL_PUB']
