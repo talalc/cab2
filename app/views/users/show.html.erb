@@ -1,0 +1,7 @@
+<%= @user.nick %> <%= @user.cc %><br><br>
+Read Comics:
+<% @user.mcomics.each do |comic| %>
+  <a href="/mcomics/<%= comic.id %>">
+    <img src="<%= comic.image_path %>/portrait_small.<%= comic.image_ext %>">
+  </a>
+<% end %>

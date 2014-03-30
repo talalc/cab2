@@ -2,6 +2,9 @@ class Mcomic < ActiveRecord::Base
 
   belongs_to :mseries
 
+  has_many :mreads
+  has_many :users, :through => :mreads
+
   def self.search_api(offset)
     ts = Time.new.strftime '%s'
     pub_key = ENV['MARVEL_PUB']

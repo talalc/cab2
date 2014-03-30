@@ -17,7 +17,7 @@
     <td align="right">
 
       <% if logged_in? %>
-        <%= current_user.nick %><br>
+        <a href="/users/<%= current_user.id %>"><%= current_user.nick %></a><br>
         <%= current_user.cc %> cc<br>
         <a href="/logout"> Logout</a>
       <% else %>
