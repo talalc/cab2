@@ -38,3 +38,11 @@ footer {
 a {
   text-decoration: none
 }
+
+body header a {
+  color: white;
+}
+
+body a {
+  color: black;
+}

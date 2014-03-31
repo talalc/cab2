@@ -30,7 +30,7 @@ belongs to series_id # <%= @comic.mseries_id %><br><br>
 
 <br>Comments<br><br>
 <% @comic.comments.each do |comment| %>
-<%= comment.user.nick %><br>
+<a href="<%= user_path(comment.user) %>"><%= comment.user.nick %></a><br>
 <%= comment.content %><br>
 <%= time_ago_in_words(comment.created_at).gsub('about','') + ' ago' %>
 <% if comment.user_id == current_user.id %>

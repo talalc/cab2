@@ -1,11 +1,13 @@
-<%= @user.nick %> <%= @user.cc %><br><br>
-Read Comics:
+<div align="center"><h1><%= @user.nick %></h1>
+<h2><%= @user.cc %> cc</div><br><br>
+Read Comics:</h2>
 <% @user.mcomics.each do |comic| %>
-  <a href="/mcomics/<%= comic.id %>">
+  <a href="<%= mcomic_path(comic) %>">
     <img src="<%= comic.image_path %>/portrait_small.<%= comic.image_ext %>">
   </a>
 <% end %>
-
-<%= @user.comments.each do |comment| %>
-  <%= comment.content %>
+<br><br>
+<h2>Comments</h2>
+<% @user.comments.each do |comment| %>
+  <a href="<%= mcomic_path(comment.commentable) %>"><small><%= comment.commentable.title %></small></a> <%= comment.content %><br><br>
 <% end %>
