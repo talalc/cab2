@@ -17,11 +17,16 @@
     <% i += 1 %>
     <td>
     <%= comic.title %><br>
-    <a href="/mcomics/<%= comic.id %>"><img src="<%= comic.image_path %>/portrait_incredible.<%= comic.image_ext %>"></a><br><%= comic.mreads.count %> reads - <%= comic.comments.count %> comments<% if logged_in? %>
-<%= form_for Mread.new, as: :mread do |f| %>
-  <%= f.hidden_field :mcomic_id, :value => comic.id %>
-  <%= f.submit 'Mark as Read' %>
-<% end %>
+    <a href="/mcomics/<%= comic.id %>"><img src="<%= comic.image_path %>/portrait_incredible.<%= comic.image_ext %>"></a><br><%= comic.mreads.count %> reads - <%= comic.comments.count %> comments
+<% if logged_in? %>
+  <% if current_user.mreads.find_by(mcomic_id: comic.id) %>
+    <%= button_to "Unmark as Read", mread_path(current_user.mreads.find_by(mcomic_id: comic.id)), :method => 'delete' %>
+  <% else %>
+    <%= form_for Mread.new, as: :mread do |f| %>
+      <%= f.hidden_field :mcomic_id, :value => comic.id %>
+      <%= f.submit 'Mark as Read' %>
+    <% end %>
+  <% end %>
 <% end %>
     </td>
     <% if i.modulo(5)==4 %></tr><tr><% end %>

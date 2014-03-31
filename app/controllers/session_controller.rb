@@ -9,7 +9,8 @@ class SessionController < ApplicationController
       session[:user_id] = user.id
       redirect_to root_path
     else
-      render(:new)
+      flash[:notice] = "Invalid Credentials"
+      redirect_to root_path
     end
   end
 

@@ -3,7 +3,12 @@
 
 <a href="<%= @series.url %>">Link to Series on Marvel.com</a><br><br>
 
-<% @series.mcomics.each do |comic| %>
+<%= form_tag mseries_retrieve_path, method: "get" do %>
+  <%= hidden_field_tag :id, @series.id %>
+  <%= submit_tag("find comics") %>
+<% end %>
+
+<% @series.mcomics.sort_by { |c| c.issueNumber}.each do |comic| %>
   <%= comic.title %><br>
   <a href="/mcomics/<%= comic.id %>">
     <img src="<%= comic.image_path %>/portrait_incredible.<%= comic.image_ext %>">

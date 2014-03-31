@@ -17,6 +17,12 @@ class MseriesesController < ApplicationController
     render :results
   end
 
+  def retrieve_comics
+    @series = Mseries.find_by(id: params[:id])
+    Mseries.add_series_comics(@series)
+    render :show
+  end
+
   def show
     @series = Mseries.find_by(id: params[:id])
   end

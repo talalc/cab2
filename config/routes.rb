@@ -10,7 +10,7 @@ Cab2::Application.routes.draw do
 
   resources :mserieses, :only => [ :index, :show ], :has_many => :comments
   get '/mseries/search' => 'mserieses#search_api'
-
+  get '/mseries/retrieve' => 'mserieses#retrieve_comics'
   resources :mcomics, :only => [ :index, :show ] do
     resources :comments
   end

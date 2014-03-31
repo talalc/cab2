@@ -5,12 +5,12 @@
 
 <%= form_for(@user) do |f| %>
   <%= f.label(:email) %>
-  <%= f.text_field(:email) %>
+  <%= f.text_field :email, :placeholder => "Enter email" %><br><br>
   <%= f.label(:nick) %>
-  <%= f.text_field(:nick) %>
+  <%= f.text_field :nick, :placeholder => "Enter nickname" %><br><br>
   <%= f.label(:password) %>
-  <%= f.password_field(:password) %>
+  <%= f.password_field :password, :placeholder => "Enter password" %><br><br>
   <%= f.label(:password_confirmation) %>
-  <%= f.password_field(:password_confirmation) %>
+  <%= f.password_field :password_confirmation, :placeholder => "password confirmation" %><br><br>
   <%= f.submit %>
 <% end %>

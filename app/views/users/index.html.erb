@@ -1,0 +1,4 @@
+<br>
+<% @users.each do |u| %>
+  <a href="<%= user_path(u.id) %>"><%= u.nick %></a> <%= u.cc %> cc<br><br>
+<% end %>

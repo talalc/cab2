@@ -1,7 +1,7 @@
 class McomicsController < ApplicationController
 
   def index
-    @comics = Mcomic.paginate(:page => params[:page], :per_page => 20)
+    @comics = Mcomic.paginate(:page => params[:page], :per_page => 10)
   end
 
   def search_api

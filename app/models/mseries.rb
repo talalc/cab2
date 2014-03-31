@@ -54,4 +54,19 @@ class Mseries < ActiveRecord::Base
     puts "Series #{series["title"]} added"
   end
 
+  def self.add_series_comics(series)
+    ts = Time.new.strftime '%s'
+    pub_key = ENV['MARVEL_PUB']
+    priv_key = ENV['MARVEL_PRIV']
+    hash = Digest::MD5.hexdigest( ts + priv_key + pub_key)
+    response = HTTParty.get("http://gateway.marvel.com:80/v1/public/series/#{series.id}/comics?format=comic&formatType=comic&noVariants=true&orderBy=onsaleDate&limit=100&offset=0&apikey=#{pub_key}&hash=#{hash}&ts=#{ts}")
+    response["data"]["results"].each do |comic|
+      unless Mcomic.find_by(id: comic["id"])
+        unless comic["thumbnail"]["path"].include?("image_not_available")
+          Mcomic.add_comic(comic)
+        end
+      end
+    end
+  end
+
 end

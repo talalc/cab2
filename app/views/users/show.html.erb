@@ -1,13 +1,24 @@
 <div align="center"><h1><%= @user.nick %></h1>
-<h2><%= @user.cc %> cc</div><br><br>
-Read Comics:</h2>
+<h2><%= @user.cc %> cc</h2></div><br><br>
+<% if logged_in? && @user.id != current_user.id %>
+  <h2>Mutual Read Comics:</h2>
+  <% @user.mcomics.each do |comic| %>
+      <% if current_user.mreads.find_by(mcomic_id: comic.id) %>
+        <a href="<%= mcomic_path(comic) %>">
+          <img src="<%= comic.image_path %>/portrait_small.<%= comic.image_ext %>">
+        </a>
+    <% end %>
+  <% end %>
+  <br><br>
+<% end %>
+<h2>Read Comics:</h2>
 <% @user.mcomics.each do |comic| %>
   <a href="<%= mcomic_path(comic) %>">
     <img src="<%= comic.image_path %>/portrait_small.<%= comic.image_ext %>">
   </a>
 <% end %>
 <br><br>
-<h2>Comments</h2>
+<h2><% if @user.id == current_user.id %>Your <% end %>Comments</h2>
 <% @user.comments.each do |comment| %>
   <a href="<%= mcomic_path(comment.commentable) %>"><small><%= comment.commentable.title %></small></a> <%= comment.content %><br><br>
 <% end %>
