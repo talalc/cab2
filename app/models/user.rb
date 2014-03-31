@@ -21,7 +21,9 @@ class User < ActiveRecord::Base
 
   has_many :comments
 
+  validates(:nick,     { :presence     => true })
   validates(:email,    { :uniqueness   => { case_sensitive: false }})
+  validates(:cc,  { :numericality => { :greater_than_or_equal_to => 0 }})
 
   def mark_as_mread(mcomic)
     self.cc += 100
