@@ -54,8 +54,12 @@ group :development, :test do
 # one liners to test common rails functionality
 # https://github.com/thoughtbot/shoulda-matchers
   gem 'shoulda-matchers'
+# https://github.com/ctran/annotate_models
+  gem 'annotate', ">=2.6.0"
+  gem "rails-erd"
 end
 
 gem 'httparty'
 
 gem 'will_paginate', '~> 3.0'
+

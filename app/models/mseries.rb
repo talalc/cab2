@@ -1,3 +1,20 @@
+# == Schema Information
+#
+# Table name: mserieses
+#
+#  id          :integer          not null, primary key
+#  title       :string(255)
+#  description :text
+#  startYear   :integer
+#  endYear     :integer
+#  url         :string(255)
+#  image_path  :string(255)
+#  image_ext   :string(255)
+#  modified    :date
+#  created_at  :datetime
+#  updated_at  :datetime
+#
+
 class Mseries < ActiveRecord::Base
 
   has_many :mcomics
