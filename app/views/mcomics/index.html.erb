@@ -1,6 +1,6 @@
 <div align="right">
-<%= form_tag mcomic_search_path, method: "get" do %>
-  <%= text_field_tag 'q', nil, placeholder: 'Enter Comic Title' %>
+<%= form_tag mcomic_search_cache_path, method: "get" do %>
+  <%= text_field_tag 'q', nil, placeholder: 'Enter Comic Offset' %>
   <%= submit_tag("Search") %>
 <% end %>
 </div>

@@ -64,4 +64,24 @@ class Mcomic < ActiveRecord::Base
     puts "Comic #{comic["title"]} added"
   end
 
+  def self.search_api_cache(offset)
+    ts = Time.new.strftime '%s'
+    pub_key = ENV['MARVEL_PUB']
+    priv_key = ENV['MARVEL_PRIV']
+    hash = Digest::MD5.hexdigest( ts + priv_key + pub_key)
+    results = Rails.cache.fetch('12'){
+      response = HTTParty.get("http://gateway.marvel.com:80/v1/public/comics?format=comic&formatType=comic&noVariants=true&limit=100&offset=#{1200}&apikey=#{pub_key}&hash=#{hash}&ts=#{ts}")
+    }
+    results = []
+    response["data"]["results"].each do |comic|
+      unless Mcomic.find_by(id: comic["id"])
+        unless comic["thumbnail"]["path"].include?("image_not_available")
+          Mcomic.add_comic(comic)
+          results << comic["id"]
+        end
+      end
+    end
+    return results
+  end
+
 end

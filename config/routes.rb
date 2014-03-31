@@ -15,6 +15,7 @@ Cab2::Application.routes.draw do
     resources :comments
   end
   get '/mcomic/search' => 'mcomics#search_api'
+  get '/mcomic/search_cache' => 'mcomics#search_api_cache'
 
   resources :users
   get  "/session/new"  => "session#new"

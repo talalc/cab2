@@ -17,6 +17,19 @@ class McomicsController < ApplicationController
     render :results
   end
 
+  def search_api_cache
+    searchstring = params[:q].gsub(/"/,' ')
+    @comics = []
+    Mcomic.where(['title LIKE ?', "%#{searchstring}%"]).each do |comic|
+      @comics << comic
+    end
+    results = Mcomic.search_api_cache(searchstring.gsub(' ','%20'))
+    results.each do |id|
+      @comics << Mcomic.find(id)
+    end
+    render :results
+  end
+
   def show
     @comic = Mcomic.find(params[:id])
   end
