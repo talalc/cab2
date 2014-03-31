@@ -5,3 +5,7 @@ Read Comics:
     <img src="<%= comic.image_path %>/portrait_small.<%= comic.image_ext %>">
   </a>
 <% end %>
+
+<%= @user.comments.each do |comment| %>
+  <%= comment.content %>
+<% end %>

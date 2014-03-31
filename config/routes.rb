@@ -23,7 +23,7 @@ Cab2::Application.routes.draw do
   # /series/:serieses_id/comics/:id
 
   # <%= link_to "show comic", [:show, @series, @comic] %>
-resources :mreads, :only => [ :index, :new, :create ]
+resources :mreads, :only => [ :index, :new, :create, :destroy ]
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
