@@ -30,13 +30,22 @@ class Mseries < ActiveRecord::Base
     results = []
     response["data"]["results"].each do |series|
       unless Mseries.find_by(id: series["id"])
-        unless series["thumbnail"]["path"].include?("image_not_available")
-          Mseries.add_series(series)
-          results << series["id"]
-        end
+        Mseries.add_series(series)
+        results << series["id"]
       end
     end
     return results
+  end
+
+  def self.retrieve_series(mseries_id)
+    ts = Time.new.strftime '%s'
+    pub_key = ENV['MARVEL_PUB']
+    priv_key = ENV['MARVEL_PRIV']
+    hash = Digest::MD5.hexdigest( ts + priv_key + pub_key)
+    response = HTTParty.get("http://gateway.marvel.com:80/v1/public/series/#{mseries_id.to_i}?&apikey=#{pub_key}&hash=#{hash}&ts=#{ts}")
+    response["data"]["results"].each do |series|
+      Mseries.add_series(series)
+    end
   end
 
   def self.add_series(series)
@@ -62,11 +71,10 @@ class Mseries < ActiveRecord::Base
     response = HTTParty.get("http://gateway.marvel.com:80/v1/public/series/#{series.id}/comics?format=comic&formatType=comic&noVariants=true&orderBy=onsaleDate&limit=100&offset=0&apikey=#{pub_key}&hash=#{hash}&ts=#{ts}")
     response["data"]["results"].each do |comic|
       unless Mcomic.find_by(id: comic["id"])
-        unless comic["thumbnail"]["path"].include?("image_not_available")
-          Mcomic.add_comic(comic)
-        end
+        Mcomic.add_comic(comic)
       end
     end
   end
+
 
 end

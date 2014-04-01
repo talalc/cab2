@@ -3,9 +3,14 @@
 
 <a href="<%= @comic.url %>">Link to Comic on Marvel.com</a><br><br>
 
-belongs to series_id # <%= @comic.mseries_id %><br><br>
+<% if Mseries.find_by(id: @comic.mseries_id) %>
+Series: <a href="/mserieses/<%= @comic.mseries_id %>"><%= @comic.mseries.title %></a><br><br>
+<% else %>
+Series: <a href="/mserieses/<%= @comic.mseries_id %>">series_id #<%= @comic.mseries_id %></a><br><br>
+<% end %>
 
-<%= @comic.mreads.count %> reads
+
+<%= @comic.mreads.count %> reads<br>
 
 <% if logged_in? %>
   <% if current_user.mreads.find_by(mcomic_id: @comic.id) %>
@@ -33,8 +38,10 @@ belongs to series_id # <%= @comic.mseries_id %><br><br>
 <a href="<%= user_path(comment.user) %>"><%= comment.user.nick %></a><br>
 <%= comment.content %><br>
 <%= time_ago_in_words(comment.created_at).gsub('about','') + ' ago' %>
+<% if logged_in? %>
 <% if comment.user_id == current_user.id %>
   <%= link_to "delete", [@comic, comment], :method => :delete, :confirm => "Are you sure?" %>
+<% end %>
 <% end %>
 <br><br>
 <% end %>

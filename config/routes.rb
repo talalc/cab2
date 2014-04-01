@@ -8,23 +8,24 @@ Cab2::Application.routes.draw do
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
-  resources :mserieses, :only => [ :index, :show ], :has_many => :comments
+  resources :mserieses, :only => [ :index, :show ]
   get '/mseries/search' => 'mserieses#search_api'
   get '/mseries/retrieve' => 'mserieses#retrieve_comics'
   resources :mcomics, :only => [ :index, :show ] do
-    resources :comments
+    resources :comments, :only => [ :create, :destroy ]
   end
   get '/mcomic/search' => 'mcomics#search_api'
-  get '/mcomic/search_cache' => 'mcomics#search_api_cache'
+  # get '/mcomic/search_cache' => 'mcomics#search_api_cache'
 
   resources :users
+
   get  "/session/new"  => "session#new"
   post "/session"      => "session#create"
   get  "/logout"       => "session#destroy"
   # /series/:serieses_id/comics/:id
 
   # <%= link_to "show comic", [:show, @series, @comic] %>
-resources :mreads, :only => [ :index, :new, :create, :destroy ]
+resources :mreads, :only => [ :create, :destroy ]
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase

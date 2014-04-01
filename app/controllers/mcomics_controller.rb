@@ -1,7 +1,16 @@
 class McomicsController < ApplicationController
 
   def index
-    @comics = Mcomic.paginate(:page => params[:page], :per_page => 10)
+    @comics = Mcomic.where.not(['image_path LIKE ?', "%image_not_available%"]).paginate(:page => params[:page], :per_page => 10)
+  end
+
+  def show
+    if Mcomic.find(params[:id])
+      @comic = Mcomic.find(params[:id])
+    else
+      Mcomic.retrieve_comic(params[:id])
+      @comic = Mcomic.find(params[:id])
+    end
   end
 
   def search_api
@@ -17,21 +26,17 @@ class McomicsController < ApplicationController
     render :results
   end
 
-  def search_api_cache
-    searchstring = params[:q].gsub(/"/,' ')
-    @comics = []
-    Mcomic.where(['title LIKE ?', "%#{searchstring}%"]).each do |comic|
-      @comics << comic
-    end
-    results = Mcomic.search_api_cache(searchstring.gsub(' ','%20'))
-    results.each do |id|
-      @comics << Mcomic.find(id)
-    end
-    render :results
-  end
-
-  def show
-    @comic = Mcomic.find(params[:id])
-  end
+  # def search_api_cache
+  #   searchstring = params[:q].gsub(/"/,' ')
+  #   @comics = []
+  #   Mcomic.where(['title LIKE ?', "%#{searchstring}%"]).each do |comic|
+  #     @comics << comic
+  #   end
+  #   results = Mcomic.search_api_cache(searchstring.gsub(' ','%20'))
+  #   results.each do |id|
+  #     @comics << Mcomic.find(id)
+  #   end
+  #   render :results
+  # end
 
 end

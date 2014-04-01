@@ -37,13 +37,22 @@ class Mcomic < ActiveRecord::Base
     results = []
     response["data"]["results"].each do |comic|
       unless Mcomic.find_by(id: comic["id"])
-        unless comic["thumbnail"]["path"].include?("image_not_available")
-          Mcomic.add_comic(comic)
-          results << comic["id"]
-        end
+        Mcomic.add_comic(comic)
+        results << comic["id"]
       end
     end
     return results
+  end
+
+  def self.retrieve_comic(mcomic_id)
+    ts = Time.new.strftime '%s'
+    pub_key = ENV['MARVEL_PUB']
+    priv_key = ENV['MARVEL_PRIV']
+    hash = Digest::MD5.hexdigest( ts + priv_key + pub_key)
+    response = HTTParty.get("http://gateway.marvel.com:80/v1/public/comics/#{mcomic_id}?&apikey=#{pub_key}&hash=#{hash}&ts=#{ts}")
+    response["data"]["results"].each do |comic|
+      Mcomic.add_comic(comic)
+    end
   end
 
   def self.add_comic(comic)
@@ -64,24 +73,23 @@ class Mcomic < ActiveRecord::Base
     puts "Comic #{comic["title"]} added"
   end
 
-  def self.search_api_cache(offset)
-    ts = Time.new.strftime '%s'
-    pub_key = ENV['MARVEL_PUB']
-    priv_key = ENV['MARVEL_PRIV']
-    hash = Digest::MD5.hexdigest( ts + priv_key + pub_key)
-    results = Rails.cache.fetch('12'){
-      response = HTTParty.get("http://gateway.marvel.com:80/v1/public/comics?format=comic&formatType=comic&noVariants=true&limit=100&offset=#{1200}&apikey=#{pub_key}&hash=#{hash}&ts=#{ts}")
-    }
-    results = []
-    response["data"]["results"].each do |comic|
-      unless Mcomic.find_by(id: comic["id"])
-        unless comic["thumbnail"]["path"].include?("image_not_available")
-          Mcomic.add_comic(comic)
-          results << comic["id"]
-        end
-      end
-    end
-    return results
-  end
+  # def self.search_api_cache(offset)
+  #   ts = Time.new.strftime '%s'
+  #   hash = Digest::MD5.hexdigest( ts + ENV['MARVEL_PUB'] + ENV['MARVEL_PRIV'])
+  #   url = "http://gateway.marvel.com:80/v1/public/comics"
+  #   Rails.cache.fetch("offset", :expires_in => 60.seconds) do
+  #     HTTParty.get("http://gateway.marvel.com:80/v1/public/comics?format=comic&formatType=comic&noVariants=true&limit=100&offset=1200&apikey=#{ENV['MARVEL_PUB']}&hash=#{hash}&ts=#{ts}")
+  #   end
+  #   binding.pry
+  #   response["data"]["results"].each do |comic|
+  #     unless Mcomic.find_by(id: comic["id"])
+  #       unless comic["thumbnail"]["path"].include?("image_not_available")
+  #         Mcomic.add_comic(comic)
+  #         results << comic["id"]
+  #       end
+  #     end
+  #   end
+  #   return results
+  # end
 
 end
