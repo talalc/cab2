@@ -15,7 +15,9 @@ Cab2::Application.routes.draw do
     resources :comments, :only => [ :create, :destroy ]
   end
   get '/mcomic/search' => 'mcomics#search_api'
+  get '/mcomic/retrieve' => 'mcomics#retrieve_chars'
   # get '/mcomic/search_cache' => 'mcomics#search_api_cache'
+  resources :mchars, :only => [ :index, :show ]
 
   resources :users
 

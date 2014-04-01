@@ -23,6 +23,17 @@ Series: <a href="/mserieses/<%= @comic.mseries_id %>">series_id #<%= @comic.mser
   <% end %>
 <% end %>
 
+<%= form_tag mcomic_retrieve_path, method: "get" do %>
+  <%= hidden_field_tag :id, @comic.id %>
+  <%= submit_tag("find chars") %>
+<% end %>
+
+<% @comic.mchars.each do |char| %>
+  <a href="/mchars/<%= char.id %>">
+    <img src="<%= char.image_path %>/portrait_small.<%= char.image_ext %>" alt="<%= char.name %>">
+  </a>
+<% end %>
+
 <% if logged_in? %>
   <%= form_for [@comic, Comment.new] do |f| %>
     <%= f.hidden_field :user_id, :value => current_user.id %>

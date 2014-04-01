@@ -13,6 +13,12 @@ class McomicsController < ApplicationController
     end
   end
 
+  def retrieve_chars
+    @comic = Mcomic.find_by(id: params[:id])
+    Mcomic.add_comic_chars(@comic)
+    render :show
+  end
+
   def search_api
     searchstring = params[:q].gsub(/"/,' ')
     @comics = []

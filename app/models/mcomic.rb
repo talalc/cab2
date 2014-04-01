@@ -23,6 +23,8 @@ class Mcomic < ActiveRecord::Base
 
   belongs_to :mseries
 
+  has_and_belongs_to_many :mchars
+
   has_many :mreads
   has_many :users, :through => :mreads
 
@@ -71,6 +73,22 @@ class Mcomic < ActiveRecord::Base
     c.modified = comic["modified"]
     c.save
     puts "Comic #{comic["title"]} added"
+  end
+
+  def self.add_comic_chars(comic)
+    ts = Time.new.strftime '%s'
+    pub_key = ENV['MARVEL_PUB']
+    priv_key = ENV['MARVEL_PRIV']
+    hash = Digest::MD5.hexdigest( ts + priv_key + pub_key)
+    response = HTTParty.get("http://gateway.marvel.com:80/v1/public/comics/#{comic.id}/characters?limit=100&apikey=#{pub_key}&hash=#{hash}&ts=#{ts}")
+    response["data"]["results"].each do |char|
+      unless Mchar.find_by(id: char["id"])
+        Mchar.add_char(char)
+      end
+      unless comic.mchars.find_by(id: char["id"])
+        comic.mchars << Mchar.find_by(id: char["id"])
+      end
+    end
   end
 
   # def self.search_api_cache(offset)
