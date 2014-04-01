@@ -1,5 +1,8 @@
 <div align="center"><h2><%= @char.name %></h2>
 
-<img src="<%= @char.image_path %>/portrait_incredible.<%= @char.image_ext %>" alt="<%= @char.name %>">
+<img src="<%= @char.image_path %>/portrait_incredible.<%= @char.image_ext %>" alt="<%= @char.name %>"> <br><br>
+<%= @char.description %>
+
+<a href="<%= @char.url %>"> Link to Marvel </a>
 
 </div>
