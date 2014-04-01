@@ -50,9 +50,9 @@ Series: <a href="/mserieses/<%= @comic.mseries_id %>">series_id #<%= @comic.mser
 <%= comment.content %><br>
 <%= time_ago_in_words(comment.created_at).gsub('about','') + ' ago' %>
 <% if logged_in? %>
-<% if comment.user_id == current_user.id %>
-  <%= link_to "delete", [@comic, comment], :method => :delete, :confirm => "Are you sure?" %>
-<% end %>
+  <% if comment.user_id == current_user.id || current_user.admin %>
+    <%= link_to "delete", [@comic, comment], :method => :delete, :confirm => "Are you sure?" %>
+  <% end %>
 <% end %>
 <br><br>
 <% end %>

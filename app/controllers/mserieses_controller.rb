@@ -1,7 +1,7 @@
 class MseriesesController < ApplicationController
 
   def index
-    @series = Mseries.where.not(['image_path LIKE ?', "%image_not_available%"]).paginate(:page => params[:page], :per_page => 10)
+    @series = Mseries.order(startYear: :desc).where.not(['image_path LIKE ?', "%image_not_available%"]).paginate(:page => params[:page], :per_page => 10)
   end
 
   def show
