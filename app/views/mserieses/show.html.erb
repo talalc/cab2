@@ -9,8 +9,7 @@
 <% end %>
 
 <% @series.mcomics.sort_by { |c| c.issueNumber}.each do |comic| %>
-  <%= comic.title %><br>
   <a href="/mcomics/<%= comic.id %>">
-    <img src="<%= comic.image_path %>/portrait_incredible.<%= comic.image_ext %>">
-  </a><br><br>
+    <img src="<%= comic.image_path %>/portrait_incredible.<%= comic.image_ext %>" alt="<%= comic.title %>">
+  </a>
 <% end %>

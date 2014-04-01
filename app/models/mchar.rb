@@ -2,6 +2,9 @@ class Mchar < ActiveRecord::Base
 
   has_and_belongs_to_many :mcomics
 
+  has_many :favmchars
+  has_many :users, :through => :favmchars
+
   def self.add_char(char)
     c = Mchar.new
     c.id = char["id"]

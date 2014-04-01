@@ -18,6 +18,13 @@
   </a>
 <% end %>
 <br><br>
+<h2>Favorite Characters:</h2>
+<% @user.mchars.each do |char| %>
+  <a href="<%= mchar_path(char) %>">
+    <img src="<%= char.image_path %>/portrait_small.<%= char.image_ext %>">
+  </a>
+<% end %>
+<br><br>
 <h2><% if logged_in? && @user.id == current_user.id %>Your <% end %>Comments</h2>
 <% @user.comments.each do |comment| %>
   <a href="<%= mcomic_path(comment.commentable) %>"><small><%= comment.commentable.title %></small></a> <%= comment.content %><br><br>

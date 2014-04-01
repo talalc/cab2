@@ -3,6 +3,25 @@
 <img src="<%= @char.image_path %>/portrait_incredible.<%= @char.image_ext %>" alt="<%= @char.name %>"> <br><br>
 <%= @char.description %>
 
-<a href="<%= @char.url %>"> Link to Marvel </a>
+<a href="<%= @char.url %>"> Link to Marvel </a><br><br>
+
+<%= @char.favmchars.count %> favorites<br>
+
+<% if logged_in? %>
+  <% if current_user.favmchars.find_by(mchar_id: @char.id) %>
+    <%= button_to "Unfavorite", favmchar_path, :method => 'delete' %>
+  <% else %>
+    <%= form_for Favmchar.new, as: :favmchar do |f| %>
+      <%= f.hidden_field :mchar_id, :value => @char.id %>
+      <%= f.submit 'Favorite' %>
+    <% end %>
+  <% end %>
+<% end %>
+<br><br>
+<% @char.mcomics.each do |comic| %>
+  <a href="/mcomics/<%= comic.id %>">
+    <img src="<%= comic.image_path %>/portrait_incredible.<%= comic.image_ext %>" alt="<%= comic.title %>">
+  </a>
+<% end %>
 
 </div>

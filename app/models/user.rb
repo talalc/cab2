@@ -19,6 +19,9 @@ class User < ActiveRecord::Base
   has_many :mreads
   has_many :mcomics, :through => :mreads
 
+  has_many :favmchars
+  has_many :mchars, :through => :favmchars
+
   has_many :comments
 
   validates(:nick,     { :presence     => true })
@@ -31,6 +34,14 @@ class User < ActiveRecord::Base
     mread.user = self
     mread.mcomic = mcomic
     return self.save && mread.save
+  end
+
+  def favorite_mchar(mchar)
+    self.cc += 500
+    favchar = Favmchar.new
+    favchar.user = self
+    favchar.mchar = mchar
+    return self.save && favchar.save
   end
 
 end
