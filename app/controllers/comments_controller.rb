@@ -13,9 +13,16 @@ class CommentsController < ApplicationController
 
 
   def destroy
+    @commentable = find_commentable
     @comment = Comment.find(params[:id])
-    @comment.destroy
-    redirect_to root_path
+    user = @comment.user
+    user.cc -= 10
+    if @comment.destroy && user.save
+      flash[:notice] = "Comment deleted"
+      redirect_to [@commentable]
+    else
+      redirect_to [@commentable]
+    end
   end
 
   private
