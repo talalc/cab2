@@ -1,3 +1,17 @@
+<div align="center">
+<%= link_to 'Browse Series', mserieses_path %><%= link_to ', Comics', mcomics_path %><%= link_to ', Users', users_path %>
+<br><br>
+<span style="font-size:small;">
+<% i = -1 %>
+<table>
+<tr>
 <% @chars.each do |char| %>
-  <%= char.name %><br>
+<% i+=1 %>
+<td>
+  <a href="<%= mchar_path(char.id) %>"><%= char.name %><br><img src="<%= char.image_path %>/portrait_small.<%= char.image_ext %>" alt="<%= char.name %>"></a>
+</td>
+<% if i.modulo(8)==7 %></tr><tr><% end %>
 <% end %>
+<table>
+</span>
+</div>

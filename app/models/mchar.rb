@@ -16,6 +16,7 @@
 class Mchar < ActiveRecord::Base
 
   has_and_belongs_to_many :mcomics
+  has_many :mserieses, :through => :mcomics
 
   has_many :favmchars
   has_many :users, :through => :favmchars

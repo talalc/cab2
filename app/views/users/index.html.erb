@@ -1,4 +1,7 @@
-<br>
+<div align="center">
+<%= link_to 'Browse Series', mserieses_path %><%= link_to ', Comics', mcomics_path %><%= link_to ', Characters', mchars_path %>
+<br><br>
 <% @users.each do |u| %>
   <a href="<%= user_path(u.id) %>"><%= u.nick %></a> <%= u.cc %> cc<br><br>
 <% end %>
+</div>
