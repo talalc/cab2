@@ -63,3 +63,6 @@ gem 'httparty'
 
 gem 'will_paginate', '~> 3.0'
 
+gem 'rails_12factor', group: :production
+
+gem 'ruby', '2.1.0p0'
