@@ -46,9 +46,9 @@ Series: <a href="/mserieses/<%= @comic.mseries_id %>">series_id #<%= @comic.mser
 
 <br>Comments<br><br>
 <% @comic.comments.each do |comment| %>
-<a href="<%= user_path(comment.user) %>"><%= comment.user.nick %></a><br>
+<a href="<%= user_path(comment.user) %>"><span style="font-size:small;"><%= comment.user.nick %></span></a><br>
 <%= comment.content %><br>
-<%= time_ago_in_words(comment.created_at).gsub('about','') + ' ago' %>
+<span style="font-size:x-small;"><%= time_ago_in_words(comment.created_at).gsub('about','') + ' ago' %></span>
 <% if logged_in? %>
   <% if comment.user_id == current_user.id || current_user.admin %>
     <%= link_to "delete", [@comic, comment], :method => :delete, :confirm => "Are you sure?" %>
