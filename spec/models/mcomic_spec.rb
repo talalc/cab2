@@ -25,6 +25,8 @@ describe Mcomic do
 
   it { should belong_to(:mseries) }
 
+  it { should have_and_belong_to_many(:mchars) }
+
   it { should have_many(:mreads) }
   it { should have_many(:users).through(:mreads) }
 
