@@ -11,17 +11,17 @@
 
 
 <% i = -1 %>
-<table>
+<table><span style="font-size:small;">
 <tr>
 <% @series.each do |series| %>
     <% i += 1 %>
     <td>
-    <span style="font-size:small;"><%= series.title %></span><br>
+    <%= series.title %><br>
     <a href="/mserieses/<%= series.id %>"><img src="<%= series.image_path %>/portrait_incredible.<%= series.image_ext %>"></a>
     </td>
     <% if i.modulo(5)==4 %></tr><tr><% end %>
   <% end %>
-</table>
+</table></span>
 
 
 </div>

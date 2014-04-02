@@ -10,18 +10,18 @@
 <%= link_to 'Browse Comics', mcomics_path %><br>
 
 <%= will_paginate @series %>
-<% i = -1 %>
+<% i = -1 %><span style="font-size:small;">
 <table>
 <tr>
 <% @series.each do |series| %>
     <% i += 1 %>
     <td>
-    <span style="font-size:small;"><%= series.title %></span><br>
+    <%= series.title %><br>
     <a href="/mserieses/<%= series.id %>"><img src="<%= series.image_path %>/portrait_incredible.<%= series.image_ext %>"></a>
     </td>
     <% if i.modulo(5)==4 %></tr><tr><% end %>
   <% end %>
-</table>
+</table></span>
 <%= will_paginate @series %>
 
 </div>
