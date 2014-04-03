@@ -1,3 +1,5 @@
+require 'will_paginate/array'
+
 class McomicsController < ApplicationController
 
   def index
@@ -13,24 +15,18 @@ class McomicsController < ApplicationController
     end
   end
 
+  def search_api
+    @comics = Mcomic.search_api(params[:q].gsub(/"/,' ').gsub(' ','%20')).paginate(:page => params[:page], :per_page => 10)
+    render :index
+  end
+
   def retrieve_chars
     @comic = Mcomic.find_by(id: params[:id])
     Mcomic.add_comic_chars(@comic)
     render :show
   end
 
-  def search_api
-    searchstring = params[:q].gsub(/"/,' ')
-    @comics = []
-    Mcomic.where(['title LIKE ?', "%#{searchstring}%"]).each do |comic|
-      @comics << comic
-    end
-    results = Mcomic.search_api(searchstring.gsub(' ','%20'))
-    results.each do |id|
-      @comics << Mcomic.find(id)
-    end
-    render :results
-  end
+
 
   # def search_api_cache
   #   searchstring = params[:q].gsub(/"/,' ')

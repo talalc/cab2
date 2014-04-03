@@ -29,6 +29,7 @@ class Mseries < ActiveRecord::Base
     priv_key = ENV['MARVEL_PRIV']
     hash = Digest::MD5.hexdigest( ts + priv_key + pub_key)
     response = HTTParty.get("http://gateway.marvel.com:80/v1/public/series?title=#{string}&contains=comic&limit=100&apikey=#{pub_key}&hash=#{hash}&ts=#{ts}")
+    puts "MARVEL API CALL"
     results = []
     response["data"]["results"].each do |series|
       if s = Mseries.find_by(id: series["id"])
@@ -61,6 +62,7 @@ class Mseries < ActiveRecord::Base
     priv_key = ENV['MARVEL_PRIV']
     hash = Digest::MD5.hexdigest( ts + priv_key + pub_key)
     response = HTTParty.get("http://gateway.marvel.com:80/v1/public/series/#{mseries_id.to_i}?&apikey=#{pub_key}&hash=#{hash}&ts=#{ts}")
+    puts "MARVEL API CALL"
     response["data"]["results"].each do |series|
       Mseries.add_series(series)
     end
@@ -87,12 +89,30 @@ class Mseries < ActiveRecord::Base
     priv_key = ENV['MARVEL_PRIV']
     hash = Digest::MD5.hexdigest( ts + priv_key + pub_key)
     response = HTTParty.get("http://gateway.marvel.com:80/v1/public/series/#{series.id}/comics?format=comic&formatType=comic&noVariants=true&orderBy=onsaleDate&limit=100&offset=0&apikey=#{pub_key}&hash=#{hash}&ts=#{ts}")
+    puts "MARVEL API CALL"
     response["data"]["results"].each do |comic|
-      unless Mcomic.find_by(id: comic["id"])
+      if c = Mcomic.find_by(id: comic["id"])
+        if c.modified != comic["modified"].to_date
+          c.update(
+            id: comic["id"],
+            mseries_id: comic["series"]["resourceURI"].split('/')[6].to_i,
+            title: comic["title"],
+            issueNumber: comic["issueNumber"],
+            description: comic["description"],
+            # text: comic["textObjects"].first["text"],
+            url: comic["urls"][0]["url"],
+            image_path: comic["thumbnail"]["path"],
+            image_ext: comic["thumbnail"]["extension"],
+            onsaleDate: comic["dates"][0]["date"],
+            focDate: comic["dates"][1]["date"],
+            modified: comic["modified"].to_date
+          )
+          puts "Comic #{comic["title"]} updated"
+        end
+      else
         Mcomic.add_comic(comic)
       end
     end
   end
-
 
 end

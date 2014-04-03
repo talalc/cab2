@@ -29,7 +29,7 @@ class Mchar < ActiveRecord::Base
     c.url = char["urls"][0]["url"]
     c.image_path = char["thumbnail"]["path"]
     c.image_ext = char["thumbnail"]["extension"]
-    c.modified = char["modified"]
+    c.modified = char["modified"].to_date
     c.save
     puts "Character #{char["name"]} added"
   end

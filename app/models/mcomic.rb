@@ -36,25 +36,34 @@ class Mcomic < ActiveRecord::Base
     priv_key = ENV['MARVEL_PRIV']
     hash = Digest::MD5.hexdigest( ts + priv_key + pub_key)
     response = HTTParty.get("http://gateway.marvel.com:80/v1/public/comics?format=comic&formatType=comic&noVariants=true&limit=100&offset=#{offset.to_i*100}&apikey=#{pub_key}&hash=#{hash}&ts=#{ts}")
+    puts "MARVEL API CALL"
     results = []
     response["data"]["results"].each do |comic|
-      unless Mcomic.find_by(id: comic["id"])
+      if c = Mcomic.find_by(id: comic["id"])
+        if c.modified != comic["modified"].to_date
+          c.update(
+            id: comic["id"],
+            mseries_id: comic["series"]["resourceURI"].split('/')[6].to_i,
+            title: comic["title"],
+            issueNumber: comic["issueNumber"],
+            description: comic["description"],
+            # text: comic["textObjects"].first["text"],
+            url: comic["urls"][0]["url"],
+            image_path: comic["thumbnail"]["path"],
+            image_ext: comic["thumbnail"]["extension"],
+            onsaleDate: comic["dates"][0]["date"],
+            focDate: comic["dates"][1]["date"],
+            modified: comic["modified"].to_date
+          )
+          puts "Comic #{comic["title"]} updated"
+        end
+        results << c
+      else
         Mcomic.add_comic(comic)
-        results << comic["id"]
+        results << Mcomic.find_by(id: comic["id"])
       end
     end
     return results
-  end
-
-  def self.retrieve_comic(mcomic_id)
-    ts = Time.new.strftime '%s'
-    pub_key = ENV['MARVEL_PUB']
-    priv_key = ENV['MARVEL_PRIV']
-    hash = Digest::MD5.hexdigest( ts + priv_key + pub_key)
-    response = HTTParty.get("http://gateway.marvel.com:80/v1/public/comics/#{mcomic_id}?&apikey=#{pub_key}&hash=#{hash}&ts=#{ts}")
-    response["data"]["results"].each do |comic|
-      Mcomic.add_comic(comic)
-    end
   end
 
   def self.add_comic(comic)
@@ -75,14 +84,40 @@ class Mcomic < ActiveRecord::Base
     puts "Comic #{comic["title"]} added"
   end
 
+  def self.retrieve_comic(mcomic_id)
+    ts = Time.new.strftime '%s'
+    pub_key = ENV['MARVEL_PUB']
+    priv_key = ENV['MARVEL_PRIV']
+    hash = Digest::MD5.hexdigest( ts + priv_key + pub_key)
+    response = HTTParty.get("http://gateway.marvel.com:80/v1/public/comics/#{mcomic_id}?&apikey=#{pub_key}&hash=#{hash}&ts=#{ts}")
+    puts "MARVEL API CALL"
+    response["data"]["results"].each do |comic|
+      Mcomic.add_comic(comic)
+    end
+  end
+
   def self.add_comic_chars(comic)
     ts = Time.new.strftime '%s'
     pub_key = ENV['MARVEL_PUB']
     priv_key = ENV['MARVEL_PRIV']
     hash = Digest::MD5.hexdigest( ts + priv_key + pub_key)
     response = HTTParty.get("http://gateway.marvel.com:80/v1/public/comics/#{comic.id}/characters?limit=100&apikey=#{pub_key}&hash=#{hash}&ts=#{ts}")
+    puts "MARVEL API CALL"
     response["data"]["results"].each do |char|
-      unless Mchar.find_by(id: char["id"])
+      if c = Mchar.find_by(id: char["id"])
+        if c.modified != char["modified"].to_date
+          c.update(
+            id: char["id"],
+            name: char["name"],
+            description: char["description"],
+            url: char["urls"][0]["url"],
+            image_path: char["thumbnail"]["path"],
+            image_ext: char["thumbnail"]["extension"],
+            modified: char["modified"].to_date
+            )
+          puts "Character #{char["name"]} updated"
+        end
+      else
         Mchar.add_char(char)
       end
       unless comic.mchars.find_by(id: char["id"])

@@ -18,7 +18,7 @@
   <% end %>
 <% end %>
 <br><br>
-<% @char.mcomics.each do |comic| %>
+<% @char.mcomics.order(onsaleDate: :desc).each do |comic| %>
   <a href="/mcomics/<%= comic.id %>">
     <img src="<%= comic.image_path %>/portrait_incredible.<%= comic.image_ext %>" alt="<%= comic.title %>">
   </a>
