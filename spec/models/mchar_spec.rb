@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: mchars
+#
+#  id          :integer          not null, primary key
+#  name        :string(255)
+#  description :text
+#  url         :string(255)
+#  image_path  :string(255)
+#  image_ext   :string(255)
+#  modified    :date
+#  created_at  :datetime
+#  updated_at  :datetime
+#
+
 require 'spec_helper'
 
 describe Mchar do
