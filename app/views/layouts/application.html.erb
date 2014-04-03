@@ -17,7 +17,7 @@
     <td align="right">
 
       <% if logged_in? %>
-        <a href="/users/<%= current_user.id %>"><%= current_user.nick %></a><br>
+        <a href="/users/<%= current_user.id %>"><%= image_tag current_user.profile.url(:thumb) %><br><%= current_user.nick %></a> -
         <%= current_user.cc %> cc<br>
         <div style="font-size: x-small"><a href="/logout"> Logout</a></div>
       <% else %>

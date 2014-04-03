@@ -1,4 +1,4 @@
-<div align="center"><h1><%= @user.nick %></h1>
+<div align="center"><h1><%= @user.nick %></h1><%= image_tag @user.profile.url(:medium) %>
 <h2><%= @user.cc %> cc</h2></div><br><br>
 <% if logged_in? && @user.id != current_user.id %>
   <h2>Mutual Read Comics:</h2>

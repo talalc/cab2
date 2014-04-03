@@ -65,4 +65,6 @@ gem 'will_paginate', '~> 3.0'
 
 gem 'rails_12factor', group: :production
 
+gem "paperclip", "~> 4.1"
+
 ruby "2.1.0"

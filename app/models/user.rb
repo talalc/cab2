@@ -16,6 +16,15 @@ class User < ActiveRecord::Base
 
   has_secure_password
 
+  has_attached_file :profile, :styles => { :medium => "300x300#", :small => "100x100#", :thumb => "64x64#" },
+                    :default_url => "/:attachment/:style/missing.png",
+                    :url  => "/:attachment/:id/:style/:basename.:extension",
+                    :path => ":rails_root/public/:attachment/:id/:style/:basename.:extension"
+
+
+  validates_attachment_size :profile, :less_than => 5.megabytes
+  validates_attachment_content_type :profile, :content_type => ['image/jpeg', 'image/jpg', 'image/png']
+
   has_many :mreads
   has_many :mcomics, :through => :mreads
 
