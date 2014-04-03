@@ -31,9 +31,25 @@ class Mseries < ActiveRecord::Base
     response = HTTParty.get("http://gateway.marvel.com:80/v1/public/series?title=#{string}&contains=comic&limit=100&apikey=#{pub_key}&hash=#{hash}&ts=#{ts}")
     results = []
     response["data"]["results"].each do |series|
-      unless Mseries.find_by(id: series["id"])
+      if s = Mseries.find_by(id: series["id"])
+        if s.modified != series["modified"].to_date
+          s.update(
+            id: series["id"],
+            title: series["title"],
+            description: series["description"],
+            startYear: series["startYear"],
+            endYear: series["endYear"],
+            url: series["urls"][0]["url"],
+            image_path: series["thumbnail"]["path"],
+            image_ext: series["thumbnail"]["extension"],
+            modified: series["modified"].to_date
+          )
+          puts "Series #{series["title"]} updated"
+        end
+        results << s
+      else
         Mseries.add_series(series)
-        results << series["id"]
+        results << Mseries.find_by(id: series["id"])
       end
     end
     return results
@@ -60,7 +76,7 @@ class Mseries < ActiveRecord::Base
     s.url = series["urls"][0]["url"]
     s.image_path = series["thumbnail"]["path"]
     s.image_ext = series["thumbnail"]["extension"]
-    s.modified = series["modified"]
+    s.modified = series["modified"].to_date
     s.save
     puts "Series #{series["title"]} added"
   end

@@ -1,3 +1,5 @@
+require 'will_paginate/array'
+
 class MseriesesController < ApplicationController
 
   def index
@@ -14,16 +16,8 @@ class MseriesesController < ApplicationController
   end
 
   def search_api
-    searchstring = params[:q].gsub(/"/,' ')
-    @serieses = []
-    Mseries.where(['title LIKE ?', "%#{searchstring}%"]).each do |series|
-      @serieses << series
-    end
-    results = Mseries.search_api(searchstring.gsub(' ','%20'))
-    results.each do |id|
-      @serieses << Mseries.find(id)
-    end
-    render :results
+    @serieses = Mseries.search_api(params[:q].gsub(/"/,' ').gsub(' ','%20')).paginate(:page => params[:page], :per_page => 10)
+    render :index
   end
 
   def retrieve_comics
