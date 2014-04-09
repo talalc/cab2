@@ -35,4 +35,9 @@ describe User do
     expect( user ).to validate_uniqueness_of(:email)
   end
 
+  it "user with no email should be invalid" do
+    user = FactoryGirl.build(:user_no_nick)
+    expect(user.valid?).to be_false
+  end
+
 end
