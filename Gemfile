@@ -57,6 +57,9 @@ group :development, :test do
 # https://github.com/ctran/annotate_models
   gem 'annotate', ">=2.6.0"
   gem "rails-erd"
+  gem 'capybara'
+  gem 'factory_girl_rails'
+  gem 'rubocop'
 end
 
 gem 'httparty'
