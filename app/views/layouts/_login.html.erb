@@ -1,0 +1,15 @@
+<div class="login">
+
+<% if logged_in? %>
+  <a href="/users/<%= current_user.id %>">
+  <%= image_tag current_user.profile.url(:thumb) %><br>
+  <%= current_user.nick %> - <%= current_user.cc %> cc</a><br>
+  <span style="font-size: x-small"><a href="/logout"> Logout</a></span>
+<% else %>
+  <%= form_tag("/session", method: "post") do %>
+    <%= text_field_tag(:email, nil, placeholder: 'Email') %> <%= password_field_tag(:password, nil, placeholder: 'Password') %> <%= submit_tag("Login") %>
+  <% end %><br>
+  <a href="/users/new">Sign Up</a>
+<% end %>
+
+</div>

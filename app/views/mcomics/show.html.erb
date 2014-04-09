@@ -28,11 +28,7 @@ Series: <a href="/mserieses/<%= @comic.mseries_id %>">series_id #<%= @comic.mser
   <%= submit_tag("find chars") %>
 <% end %>
 
-<% @comic.mchars.each do |char| %>
-  <a href="/mchars/<%= char.id %>">
-    <img src="<%= char.image_path %>/portrait_small.<%= char.image_ext %>" alt="<%= char.name %>">
-  </a>
-<% end %>
+<%= render partial: "/mchars/char", collection: @comic.mchars %>
 
 <% if logged_in? %>
   <%= form_for [@comic, Comment.new] do |f| %>
@@ -45,14 +41,4 @@ Series: <a href="/mserieses/<%= @comic.mseries_id %>">series_id #<%= @comic.mser
 <% end %>
 
 <br>Comments<br><br>
-<% @comic.comments.each do |comment| %>
-<a href="<%= user_path(comment.user) %>"><span style="font-size:small;"><%= comment.user.nick %></span></a><br>
-<%= comment.content %><br>
-<span style="font-size:x-small;"><%= time_ago_in_words(comment.created_at).gsub('about','') + ' ago' %></span>
-<% if logged_in? %>
-  <% if comment.user_id == current_user.id || current_user.admin %>
-    <%= link_to "delete", [@comic, comment], :method => :delete, :confirm => "Are you sure?" %>
-  <% end %>
-<% end %>
-<br><br>
-<% end %>
+<%= render partial: "comment", collection: @comic.comments %>

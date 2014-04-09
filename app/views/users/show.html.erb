@@ -12,20 +12,10 @@
   <br><br>
 <% end %>
 <h2>Read Comics:</h2>
-<% @user.mcomics.each do |comic| %>
-  <a href="<%= mcomic_path(comic) %>">
-    <img src="<%= comic.image_path %>/portrait_small.<%= comic.image_ext %>">
-  </a>
-<% end %>
+<%= render partial: "comic", collection: @user.mcomics %>
 <br><br>
 <h2>Favorite Characters:</h2>
-<% @user.mchars.each do |char| %>
-  <a href="<%= mchar_path(char) %>">
-    <img src="<%= char.image_path %>/portrait_small.<%= char.image_ext %>">
-  </a>
-<% end %>
+<%= render partial: "/mchars/char", collection: @user.mchars %>
 <br><br>
 <h2><% if logged_in? && @user.id == current_user.id %>Your <% end %>Comments</h2>
-<% @user.comments.each do |comment| %>
-  <a href="<%= mcomic_path(comment.commentable) %>"><small><%= comment.commentable.title %></small></a> <%= comment.content %><br><br>
-<% end %>
+<%= render partial: "comment", collection: @user.comments %>

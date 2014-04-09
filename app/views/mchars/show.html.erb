@@ -18,10 +18,6 @@
   <% end %>
 <% end %>
 <br><br>
-<% @char.mcomics.order(onsaleDate: :desc).each do |comic| %>
-  <a href="/mcomics/<%= comic.id %>">
-    <img src="<%= comic.image_path %>/portrait_incredible.<%= comic.image_ext %>" alt="<%= comic.title %>">
-  </a>
-<% end %>
+<%= render partial: "mcomics/comic", collection: @char.mcomics.order(onsaleDate: :desc) %>
 
 </div>

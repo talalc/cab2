@@ -6,42 +6,26 @@
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
-<header>
-<div class="container">
-  <table width="1080">
-    <td>
-      <a href="../">
-      <img src="<%= asset_path('calogo2.png') %>" width="340" height="100" />
-      </a>
-    </td>
-    <td align="right">
 
-      <% if logged_in? %>
-        <a href="/users/<%= current_user.id %>"><%= image_tag current_user.profile.url(:thumb) %><br><%= current_user.nick %></a> -
-        <%= current_user.cc %> cc<br>
-        <div style="font-size: x-small"><a href="/logout"> Logout</a></div>
-      <% else %>
-        <%= form_tag("/session", method: "post") do %>
-          <%= text_field_tag(:email, nil, placeholder: 'Email') %> <%= password_field_tag(:password, nil, placeholder: 'Password') %> <%= submit_tag("Login") %>
-        <% end %>
-        <br><a href="/users/new">Sign Up</a>
-      <% end %>
-
-    </td>
-    </div>
-  </table>
-</div>
-</header>
 <body>
-<div class="container">
-<% flash.each do |key, value| %>
-  <p><%= value %></p>
-<% end %>
 
-<%= yield %>
-<footer>
-<p><div align="right" style="font-size: medium"><a href="http://marvel.com">Data provided by Marvel. &copy; 2014 Marvel</a></div><div align="left">&copy; Comic Authority <%= Time.now.year %></div></p>
-</footer>
-</div>
+  <header>
+    <div class="container">
+      <%= link_to image_tag('calogo2.png'), root_path %>
+      <%= render 'layouts/login' %>
+    </div>
+  </header>
+
+  <div class="container">
+    <% flash.each do |key, value| %>
+      <div class="flash"><%= value %><br></div>
+    <% end %>
+
+    <%= yield %>
+
+    <%= render 'layouts/footer' %>
+  </div>
+
 </body>
+
 </html>

@@ -8,8 +8,4 @@
   <%= submit_tag("find comics") %>
 <% end %>
 
-<% @series.mcomics.sort_by { |c| c.issueNumber}.each do |comic| %>
-  <a href="/mcomics/<%= comic.id %>">
-    <img src="<%= comic.image_path %>/portrait_incredible.<%= comic.image_ext %>" alt="<%= comic.title %>">
-  </a>
-<% end %>
+<%= render partial: "mcomics/comic", collection: @series.mcomics.sort_by { |c| c.issueNumber} %>

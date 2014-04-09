@@ -11,29 +11,37 @@
  *= require_self
  *= require_tree .
  */
-
- //= depend_on_asset "bg.png"
-
 body {
-  margin: 0;
-  padding: 0;
   font-family: Tahoma, Geneva, sans-serif;
   background-image: url('<%= asset_path("bg.png") %> ');
+  margin: 0px;
 }
+
 header {
   background-color: #b80000;
-/*  transition: .8s all ;*/
-  color:white;
-}
+  height: 105px;
+  color: white;
+  padding: 2px;
 
-/*header:hover {
-  background-color: black;
-}*/
+}
 
 .container {
-  width: 1080px;
+  max-width:1080px;
   margin: 0 auto;
+  position: relative;
 }
+
+.login {
+  position: absolute;
+  text-align: right;
+  top: 0px;
+  right: 0px;
+}
+
+.flash {
+  background-color: #66CC66;
+}
+
 footer {
   font-size:10px;
 }
@@ -48,4 +56,28 @@ body header a {
 
 body a {
   color: black;
+}
+
+.comic {
+  display: inline-block;
+  font-size:small;
+  width: 192px;
+  height: 320px;
+  text-align: center;
+}
+
+.char {
+  display: inline-block;
+  font-size:small;
+  width: 80px;
+  height: 100px;
+  text-align: center;
+}
+
+.small_comic {
+  display: inline-block;
+  font-size:x-small;
+  width: 54px;
+  height: 90px;
+  text-align: center;
 }
