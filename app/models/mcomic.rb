@@ -126,6 +126,18 @@ class Mcomic < ActiveRecord::Base
     end
   end
 
+  def image_size_uncanny
+    "#{self.image_path}/portrait_uncanny.#{self.image_ext}"
+  end
+
+  def image_size_fantastic
+    "#{self.image_path}/portrait_fantastic.#{self.image_ext}"
+  end
+
+  def image_size_small
+    "#{self.image_path}/portrait_small.#{self.image_ext}"
+  end
+
   # def self.search_api_cache(offset)
   #   ts = Time.new.strftime '%s'
   #   hash = Digest::MD5.hexdigest( ts + ENV['MARVEL_PUB'] + ENV['MARVEL_PRIV'])

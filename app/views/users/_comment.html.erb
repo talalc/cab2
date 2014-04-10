@@ -1,1 +1,1 @@
-<a href="<%= mcomic_path(comment.commentable) %>"><small><%= comment.commentable.title %></small></a> <%= comment.content %><br><br>
+<small><%= link_to comment.commentable.title, mcomic_path(comment.commentable) %></small> <%= comment.content %><br><br>

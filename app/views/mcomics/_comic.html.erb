@@ -1,16 +1,12 @@
 <div class="comic">
-  <a href="/mcomics/<%= comic.id %>">
-  <%= comic.title %><br>
-  <img src="<%= comic.image_path %>/portrait_fantastic.<%= comic.image_ext %>" alt="<%= comic.title %>"></a><br>
+  <%= link_to "#{comic.title}<br>#{image_tag(comic.image_size_fantastic, alt: comic.title)}".html_safe, mcomic_path(comic) %><br>
   <%= comic.mreads.count %> reads - <%= comic.comments.count %> comments
-  <% if logged_in? %>
-    <% if current_user.mreads.find_by(mcomic_id: comic.id) %>
-      <%= button_to "Unmark as Read", mread_path(current_user.mreads.find_by(mcomic_id: comic.id)), :method => 'delete' %>
-    <% else %>
-      <%= form_for Mread.new, as: :mread do |f| %>
-        <%= f.hidden_field :mcomic_id, :value => comic.id %>
-        <%= f.submit 'Mark as Read' %>
-      <% end %>
+  <% if logged_in? && current_user.read?(comic) %>
+    <%= button_to "Unmark as Read", mread_path(current_user.mreads.find_by(mcomic_id: comic.id)), :method => 'delete' %>
+  <% elsif logged_in? %>
+    <%= form_for Mread.new, as: :mread do |f| %>
+      <%= f.hidden_field :mcomic_id, :value => comic.id %>
+      <%= f.submit 'Mark as Read' %>
     <% end %>
   <% end %>
 </div>

@@ -115,4 +115,12 @@ class Mseries < ActiveRecord::Base
     end
   end
 
+  def image_size_uncanny
+    "#{self.image_path}/portrait_uncanny.#{self.image_ext}"
+  end
+
+  def image_size_fantastic
+    "#{self.image_path}/portrait_fantastic.#{self.image_ext}"
+  end
+
 end

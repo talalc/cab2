@@ -1,25 +1,22 @@
-<%= @comic.title %><br>
-<a href="<%= @comic.url %>"><img src="<%= @comic.image_path %>/portrait_uncanny.<%= @comic.image_ext %>"></a><br><br>
+<%= link_to "#{@comic.title}<br>#{image_tag(@comic.image_size_uncanny, alt: @comic.title)}".html_safe, @comic.url %><br><br>
 
-<a href="<%= @comic.url %>">Link to Comic on Marvel.com</a><br><br>
+<%= link_to "Link to Comic on Marvel.com", @comic.url %><br><br>
 
 <% if Mseries.find_by(id: @comic.mseries_id) %>
-Series: <a href="/mserieses/<%= @comic.mseries_id %>"><%= @comic.mseries.title %></a><br><br>
+Series: <%= link_to @comic.mseries.title, mseries_path(@comic.mseries_id) %><br><br>
 <% else %>
-Series: <a href="/mserieses/<%= @comic.mseries_id %>">series_id #<%= @comic.mseries_id %></a><br><br>
+Series: <%= link_to "series_id ##{@comic.mseries_id}", mseries_path(@comic.mseries_id) %><br><br>
 <% end %>
 
 
 <%= @comic.mreads.count %> reads<br>
 
-<% if logged_in? %>
-  <% if current_user.mreads.find_by(mcomic_id: @comic.id) %>
-    <%= button_to "Unmark as Read", mread_path(current_user.mreads.find_by(mcomic_id: @comic.id)), :method => 'delete' %>
-  <% else %>
-    <%= form_for Mread.new, as: :mread do |f| %>
-      <%= f.hidden_field :mcomic_id, :value => @comic.id %>
-      <%= f.submit 'Mark as Read' %>
-    <% end %>
+<% if logged_in? && current_user.read?(@comic) %>
+  <%= button_to "Unmark as Read", mread_path(current_user.mreads.find_by(mcomic_id: @comic.id)), :method => 'delete' %>
+<% elsif logged_in? %>
+  <%= form_for Mread.new, as: :mread do |f| %>
+    <%= f.hidden_field :mcomic_id, :value => @comic.id %>
+    <%= f.submit 'Mark as Read' %>
   <% end %>
 <% end %>
 

@@ -1,7 +1,6 @@
-<%= @series.title %><br>
-<a href="<%= @series.url %>"><img src="<%= @series.image_path %>/portrait_uncanny.<%= @series.image_ext %>"></a><br><br>
+<%= link_to "#{@series.title}<br>#{image_tag(@series.image_size_uncanny, alt: @series.title)}".html_safe, @series.url %><br><br>
 
-<a href="<%= @series.url %>">Link to Series on Marvel.com</a><br><br>
+<%= link_to "Link to Series on Marvel.com", @series.url %><br><br>
 
 <%= form_tag mseries_retrieve_path, method: "get" do %>
   <%= hidden_field_tag :id, @series.id %>

@@ -53,4 +53,8 @@ class User < ActiveRecord::Base
     return self.save && favchar.save
   end
 
+  def read?(comic)
+    mreads.find_by(mcomic_id: comic.id)
+  end
+
 end
