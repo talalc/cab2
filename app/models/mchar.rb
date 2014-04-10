@@ -34,4 +34,12 @@ class Mchar < ActiveRecord::Base
     puts "Character #{char["name"]} added"
   end
 
+  def image_size_incredible
+    "#{self.image_path}/portrait_incredible.#{self.image_ext}"
+  end
+
+  def image_size_small
+    "#{self.image_path}/portrait_small.#{self.image_ext}"
+  end
+
 end

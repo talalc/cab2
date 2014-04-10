@@ -1,20 +1,18 @@
-<div align="center"><h2><%= @char.name %></h2>
-
-<a href="<%= @char.url %>"><img src="<%= @char.image_path %>/portrait_incredible.<%= @char.image_ext %>" alt="<%= @char.name %>"></a><br><br>
+<div align="center">
+<h2><%= @char.name %></h2>
+<%= link_to image_tag(@char.image_size_incredible, alt: @char.name), @char.url %><br><br>
 <%= @char.description %>
 
-<a href="<%= @char.url %>"> Link to Marvel </a><br><br>
+<%= link_to 'Link to Marvel', @char.url %><br><br>
 
 <%= @char.favmchars.count %> favorites<br>
 
-<% if logged_in? %>
-  <% if current_user.favmchars.find_by(mchar_id: @char.id) %>
-    <%= button_to "Unfavorite", favmchar_path, :method => 'delete' %>
-  <% else %>
-    <%= form_for Favmchar.new, as: :favmchar do |f| %>
-      <%= f.hidden_field :mchar_id, :value => @char.id %>
-      <%= f.submit 'Favorite' %>
-    <% end %>
+<% if logged_in? && current_user.favmchars.find_by(mchar_id: @char.id) %>
+  <%= button_to "Unfavorite", favmchar_path, :method => 'delete' %>
+<% elsif logged_in? %>
+  <%= form_for Favmchar.new, as: :favmchar do |f| %>
+    <%= f.hidden_field :mchar_id, :value => @char.id %>
+    <%= f.submit 'Favorite' %>
   <% end %>
 <% end %>
 <br><br>

@@ -1,4 +1,3 @@
 <div class="char">
-  <a href="<%= mchar_path(char.id) %>"><%= char.name %><br>
-  <img src="<%= char.image_path %>/portrait_small.<%= char.image_ext %>" alt="<%= char.name %>"></a>
+    <%= link_to "#{char.name}<br>#{image_tag(char.image_size_small, alt: char.name)}".html_safe, mchar_path(char.id) %>
 </div>
