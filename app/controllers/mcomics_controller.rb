@@ -3,7 +3,7 @@ require 'will_paginate/array'
 class McomicsController < ApplicationController
 
   def index
-    @comics = Mcomic.order(onsaleDate: :desc).where.not(['image_path LIKE ?', "%image_not_available%"]).paginate(:page => params[:page], :per_page => 10)
+    @comics = Mcomic.has_pic.order(onsaleDate: :desc).paginate(:page => params[:page], :per_page => 10)
   end
 
   def show

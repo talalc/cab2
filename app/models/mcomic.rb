@@ -30,6 +30,9 @@ class Mcomic < ActiveRecord::Base
 
   has_many :comments, as: :commentable
 
+  scope :recent, where("created_at < ?", 3.days.ago)
+  scope :has_pic, -> { where.not('image_path LIKE ?', "%image_not_available%") }
+
   def self.search_api(offset)
     ts = Time.new.strftime '%s'
     pub_key = ENV['MARVEL_PUB']

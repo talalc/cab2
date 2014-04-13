@@ -3,7 +3,7 @@ require 'will_paginate/array'
 class MseriesesController < ApplicationController
 
   def index
-    @serieses = Mseries.order(startYear: :desc).where.not(['image_path LIKE ?', "%image_not_available%"]).paginate(:page => params[:page], :per_page => 10)
+    @serieses = Mseries.has_pic.order(startYear: :desc).paginate(:page => params[:page], :per_page => 10)
   end
 
   def show
