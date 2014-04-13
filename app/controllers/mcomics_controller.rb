@@ -2,6 +2,8 @@ require 'will_paginate/array'
 
 class McomicsController < ApplicationController
 
+  before_action :require_admin, only: [:search_api]
+
   def index
     @comics = Mcomic.has_pic.order(onsaleDate: :desc).paginate(:page => params[:page], :per_page => 10)
   end
@@ -16,7 +18,9 @@ class McomicsController < ApplicationController
   end
 
   def search_api
-    @comics = Mcomic.search_api(params[:q].gsub(/"/,' ').gsub(' ','%20')).paginate(:page => params[:page], :per_page => 10)
+    string = URI.escape(params[:q])
+    # gsub(/"/,' ')
+    @comics = Mcomic.search_api(string).paginate(:page => params[:page], :per_page => 10)
     render :index
   end
 

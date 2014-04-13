@@ -16,7 +16,9 @@ class MseriesesController < ApplicationController
   end
 
   def search_api
-    @serieses = Mseries.search_api(params[:q].gsub(/"/,' ').gsub(' ','%20')).paginate(:page => params[:page], :per_page => 10)
+    string = URI.escape(params[:q])
+    # gsub(/"/,' ')
+    @serieses = Mseries.search_api(string).paginate(:page => params[:page], :per_page => 10)
     render :index
   end
 
